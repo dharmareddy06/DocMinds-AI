@@ -43,6 +43,11 @@ app.include_router(documents.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
 app.include_router(agents.router, prefix="/api")
 
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    from fastapi import Response
+    return Response(status_code=204)
+
 @app.get("/")
 def root():
     return {

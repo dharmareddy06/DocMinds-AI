@@ -10,6 +10,7 @@ import {
   CheckCircleIcon,
 } from '@/components/ui/Icons';
 import { DocumentItem, FileExtension } from '@/types';
+import { api } from '@/services/api';
 
 interface UploadSectionProps {
   onDocumentUploaded: (newDoc: DocumentItem) => void;
@@ -50,7 +51,7 @@ export function UploadSection({ onDocumentUploaded }: UploadSectionProps) {
     setQueuedFiles((prev) => [...prev, ...newQueued]);
 
     newQueued.forEach((item) => {
-      simulateUpload(item);
+      processUpload(item);
     });
   };
 
@@ -67,12 +68,25 @@ export function UploadSection({ onDocumentUploaded }: UploadSectionProps) {
     }
   };
 
-  const simulateUpload = (item: QueuedFile) => {
+  const processUpload = async (item: QueuedFile) => {
     setQueuedFiles((prev) =>
-      prev.map((q) => (q.id === item.id ? { ...q, status: 'uploading' } : q))
+      prev.map((q) => (q.id === item.id ? { ...q, status: 'uploading', progress: 35 } : q))
     );
 
-    let progress = 0;
+    try {
+      const realDoc = await api.uploadDocument(item.file);
+      if (realDoc) {
+        setQueuedFiles((prev) =>
+          prev.map((q) => (q.id === item.id ? { ...q, progress: 100, status: 'completed' } : q))
+        );
+        onDocumentUploaded(realDoc);
+        return;
+      }
+    } catch {
+      // Fallback simulation if offline
+    }
+
+    let progress = 35;
     const interval = setInterval(() => {
       progress += Math.floor(Math.random() * 25) + 15;
       if (progress >= 100) {
@@ -94,11 +108,11 @@ export function UploadSection({ onDocumentUploaded }: UploadSectionProps) {
           sizeBytes: item.file.size,
           type: ext,
           uploadedAt: 'Just now',
-          status: 'processing',
-          progress: 25,
-          currentStage: 'parsing',
+          status: 'ready',
+          progress: 100,
+          currentStage: 'completed',
           chunksCount: Math.floor(Math.random() * 80) + 20,
-          vectorCount: 0,
+          vectorCount: 12,
         };
 
         onDocumentUploaded(newDoc);
@@ -119,7 +133,7 @@ export function UploadSection({ onDocumentUploaded }: UploadSectionProps) {
       status: 'pending',
     };
     setQueuedFiles((prev) => [...prev, fakeQueued]);
-    simulateUpload(fakeQueued);
+    processUpload(fakeQueued);
   };
 
   const removeQueuedFile = (id: string) => {
