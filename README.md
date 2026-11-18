@@ -1,4 +1,4 @@
-# DocMind AI 🧠📄
+# DocMind AI 
 
 > **Intelligent, Agentic Document Intelligence Platform powered by Groq and Advanced Hybrid RAG.**
 
@@ -6,7 +6,7 @@ DocMind AI is an enterprise document intelligence and multi-agent reasoning plat
 
 ---
 
-## 🌟 Key Capabilities
+## Key Capabilities
 
 - **Intelligent Multi-Format Ingestion**: Automated parsing for PDF (PyMuPDF), DOCX (python-docx), CSV/Excel (pandas), TXT, and Markdown preserving page numbers and tabular structure.
 - **Hybrid Search Engine**: Combines **pgvector semantic search** (Sentence Transformers embeddings) and **BM25 full-text keyword retrieval**.
@@ -23,7 +23,7 @@ DocMind AI is an enterprise document intelligence and multi-agent reasoning plat
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 docmind-ai/
@@ -56,7 +56,7 @@ docmind-ai/
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Prerequisites
 - Python 3.11+
@@ -105,7 +105,7 @@ Open `http://localhost:3000` to access the dashboard.
 
 ---
 
-## 🧪 Testing
+## Testing
 
 Run the end-to-end pipeline verification test (validates database, ingestion, RRF hybrid retrieval, and multi-agent workflow):
 ```bash
@@ -114,5 +114,5 @@ python backend/tests/test_pipeline_e2e.py
 
 ---
 
-## 📜 License
+## License
 MIT License.
