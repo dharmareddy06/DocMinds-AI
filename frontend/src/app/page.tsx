@@ -11,11 +11,11 @@ import { DocumentViewerModal } from '@/components/dashboard/DocumentViewerModal'
 import { ResearchView } from '@/components/dashboard/ResearchView';
 import { ComparisonView } from '@/components/dashboard/ComparisonView';
 import { AgentMonitorView } from '@/components/dashboard/AgentMonitorView';
+import { ChatView } from '@/components/dashboard/ChatView';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import {
   SparklesIcon,
-  MessagesSquareIcon,
   SettingsIcon,
 } from '@/components/ui/Icons';
 import { DocumentItem, NavigationTab, ProcessingJob } from '@/types';
@@ -354,31 +354,9 @@ export default function Home() {
         <ComparisonView documents={documents} onOpenViewer={handleOpenViewer} />
       )}
 
-      {/* Tab: Conversations */}
+      {/* Tab: Conversations / AI Chat */}
       {currentTab === 'conversations' && (
-        <div className="space-y-5">
-          <Card className="text-center p-8 sm:p-12">
-            <div className="w-10 h-10 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 flex items-center justify-center mx-auto mb-3">
-              <MessagesSquareIcon size={20} />
-            </div>
-            <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-              Conversational Agents
-            </h3>
-            <p className="text-xs text-neutral-500 mt-1 max-w-sm mx-auto">
-              Initiate deep reasoning chats with citation-backed responses across all indexed documents.
-            </p>
-            <div className="mt-4 flex justify-center">
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={handleStartGeneralConversation}
-                leftIcon={<SparklesIcon size={14} />}
-              >
-                New Conversation
-              </Button>
-            </div>
-          </Card>
-        </div>
+        <ChatView documents={documents} onOpenViewer={handleOpenViewer} />
       )}
 
       {/* Tab: Pipelines & Agent Monitor */}

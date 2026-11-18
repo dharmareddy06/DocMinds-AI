@@ -203,5 +203,87 @@ export const api = {
     } catch {
       return false;
     }
+  },
+
+  streamChat(
+    message: string,
+    onToken: (token: string) => void,
+    onCitations: (citations: CitationItem[]) => void,
+    onComplete: () => void,
+    onError: (err: Error) => void,
+    conversationId?: string,
+    workspaceId?: string
+  ): () => void {
+    const controller = new AbortController();
+
+    fetch(`${API_BASE_URL}/chat/stream`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message,
+        conversation_id: conversationId,
+        workspace_id: workspaceId,
+      }),
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`Streaming failed: HTTP ${response.status}`);
+        }
+        if (!response.body) {
+          throw new Error('No readable stream in response body');
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let currentEvent = 'message';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            onComplete();
+            break;
+          }
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed) continue;
+
+            if (trimmed.startsWith('event:')) {
+              currentEvent = trimmed.replace('event:', '').trim();
+            } else if (trimmed.startsWith('data:')) {
+              const dataStr = trimmed.replace('data:', '').trim();
+              try {
+                const parsed = JSON.parse(dataStr);
+                if (currentEvent === 'citations' && Array.isArray(parsed)) {
+                  onCitations(parsed as CitationItem[]);
+                } else if (currentEvent === 'token' && parsed.token) {
+                  onToken(parsed.token);
+                } else if (currentEvent === 'done') {
+                  onComplete();
+                  return;
+                }
+              } catch {
+                // If text token directly
+                if (currentEvent === 'token') {
+                  onToken(dataStr);
+                }
+              }
+            }
+          }
+        }
+      })
+      .catch((err) => {
+        if (err.name !== 'AbortError') {
+          onError(err);
+        }
+      });
+
+    return () => controller.abort();
   }
 };
