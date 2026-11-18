@@ -15,6 +15,7 @@ interface ConversationModalProps {
   onClose: () => void;
   documents: DocumentItem[];
   selectedDocument?: DocumentItem | null;
+  onOpenViewer?: (docId: string, page?: number, text?: string) => void;
 }
 
 const suggestedPrompts = [
@@ -29,6 +30,7 @@ export function ConversationModal({
   onClose,
   documents,
   selectedDocument,
+  onOpenViewer,
 }: ConversationModalProps) {
   const readyDocs = documents.filter((d) => d.status === 'ready');
   const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
@@ -211,9 +213,20 @@ export function ConversationModal({
                       <span className="truncate mr-2 font-semibold">
                         📄 {cite.document_name}
                       </span>
-                      <span className="font-mono text-neutral-400 shrink-0">
-                        Page {cite.page_number || 1} • {Math.round(cite.relevance_score * 100)}% match
-                      </span>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="font-mono text-neutral-400">
+                          Page {cite.page_number || 1} • {Math.round(cite.relevance_score * 100)}% match
+                        </span>
+                        {onOpenViewer && (
+                          <button
+                            type="button"
+                            onClick={() => onOpenViewer(cite.document_id, cite.page_number || 1, cite.relevant_passage)}
+                            className="text-[10px] text-neutral-900 dark:text-neutral-100 underline hover:no-underline font-medium"
+                          >
+                            Inspect
+                          </button>
+                        )}
+                      </div>
                     </div>
                     <p className="text-[11px] text-neutral-500 italic bg-white dark:bg-neutral-900 p-2 rounded border border-neutral-100 dark:border-neutral-800">
                       &ldquo;{cite.relevant_passage}&rdquo;

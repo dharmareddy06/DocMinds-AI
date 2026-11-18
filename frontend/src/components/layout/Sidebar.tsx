@@ -6,6 +6,8 @@ import {
   LayoutDashboardIcon,
   FileTextIcon,
   MessagesSquareIcon,
+  SparklesIcon,
+  LayersIcon,
   CpuIcon,
   BarChart3Icon,
   SettingsIcon,
@@ -29,8 +31,10 @@ const navItems: {
 }[] = [
   { id: 'dashboard', label: 'Overview', icon: LayoutDashboardIcon },
   { id: 'documents', label: 'Documents', icon: FileTextIcon, badge: '12' },
-  { id: 'conversations', label: 'Conversations', icon: MessagesSquareIcon },
-  { id: 'pipelines', label: 'Pipelines', icon: CpuIcon, badge: '2' },
+  { id: 'conversations', label: 'AI Chat', icon: MessagesSquareIcon },
+  { id: 'research', label: 'Research Studio', icon: SparklesIcon },
+  { id: 'compare', label: 'Document Compare', icon: LayersIcon },
+  { id: 'pipelines', label: 'Agent Monitor', icon: CpuIcon, badge: '5' },
   { id: 'analytics', label: 'Analytics', icon: BarChart3Icon },
   { id: 'settings', label: 'Settings', icon: SettingsIcon },
 ];

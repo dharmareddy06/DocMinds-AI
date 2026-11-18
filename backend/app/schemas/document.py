@@ -20,3 +20,17 @@ class DocumentResponse(BaseModel):
 class DocumentListResponse(BaseModel):
     documents: List[DocumentResponse]
     total: int
+
+class DocumentPagePreview(BaseModel):
+    page_number: int
+    content: str
+    chunks_count: int
+
+class DocumentPreviewResponse(BaseModel):
+    document_id: str
+    filename: str
+    file_type: str
+    file_size_bytes: int
+    total_pages: int
+    chunks_count: int
+    pages: List[DocumentPagePreview]

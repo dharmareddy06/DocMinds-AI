@@ -22,7 +22,9 @@ const tabTitles: Record<NavigationTab, { title: string }> = {
   dashboard: { title: 'Overview' },
   documents: { title: 'Documents' },
   conversations: { title: 'Conversations' },
-  pipelines: { title: 'Pipelines' },
+  research: { title: 'Deep Research Studio' },
+  compare: { title: 'Document Comparison' },
+  pipelines: { title: 'Agent Monitor & Pipelines' },
   analytics: { title: 'Analytics' },
   settings: { title: 'Settings' },
 };

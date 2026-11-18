@@ -41,6 +41,8 @@ export type NavigationTab =
   | 'dashboard'
   | 'documents'
   | 'conversations'
+  | 'research'
+  | 'compare'
   | 'pipelines'
   | 'analytics'
   | 'settings';

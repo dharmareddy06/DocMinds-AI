@@ -31,6 +31,46 @@ export interface ChatResponseData {
   execution_trace?: Record<string, unknown>[];
 }
 
+export interface DocumentPagePreviewData {
+  page_number: number;
+  content: string;
+  chunks_count: number;
+}
+
+export interface DocumentPreviewData {
+  document_id: string;
+  filename: string;
+  file_type: string;
+  file_size_bytes: number;
+  total_pages: number;
+  chunks_count: number;
+  pages: DocumentPagePreviewData[];
+}
+
+export interface ResearchResultData {
+  id: string;
+  agent_type: string;
+  status: string;
+  input_query: string;
+  output_result: string;
+  citations: CitationItem[];
+  execution_trace?: {
+    steps: Record<string, unknown>[];
+    sub_queries: string[];
+  };
+}
+
+export interface ComparisonResultData {
+  id: string;
+  agent_type: string;
+  status: string;
+  document_ids: string[];
+  documents_compared: string[];
+  comparison_result: string;
+  citations: CitationItem[];
+  trace?: Record<string, unknown>[];
+}
+
 function formatBytes(bytes: number): string {
   if (bytes === 0) return '0 B';
   const k = 1024;
@@ -90,6 +130,14 @@ export const api = {
     return mapBackendDoc(doc);
   },
 
+  async getDocumentPreview(documentId: string): Promise<DocumentPreviewData> {
+    const res = await fetch(`${API_BASE_URL}/documents/${documentId}/preview`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch document preview');
+    }
+    return await res.json();
+  },
+
   async deleteDocument(documentId: string): Promise<boolean> {
     const res = await fetch(`${API_BASE_URL}/documents/${documentId}`, {
       method: 'DELETE',
@@ -109,6 +157,40 @@ export const api = {
 
     if (!res.ok) {
       throw new Error('Chat request failed');
+    }
+
+    return await res.json();
+  },
+
+  async runResearch(topic: string, targetDocIds?: string[]): Promise<ResearchResultData> {
+    const res = await fetch(`${API_BASE_URL}/agents/research`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        topic,
+        target_document_ids: targetDocIds,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error('Research inquiry failed');
+    }
+
+    return await res.json();
+  },
+
+  async compareDocuments(documentIds: string[], aspects?: string[]): Promise<ComparisonResultData> {
+    const res = await fetch(`${API_BASE_URL}/documents/compare`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        document_ids: documentIds,
+        aspects: aspects,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error('Document comparison failed');
     }
 
     return await res.json();

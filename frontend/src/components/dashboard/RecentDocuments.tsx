@@ -16,12 +16,14 @@ interface RecentDocumentsProps {
   documents: DocumentItem[];
   onStartChatWithDoc: (doc: DocumentItem) => void;
   onDeleteDoc: (docId: string) => void;
+  onOpenViewer?: (docId: string, page?: number) => void;
 }
 
 export function RecentDocuments({
   documents,
   onStartChatWithDoc,
   onDeleteDoc,
+  onOpenViewer,
 }: RecentDocumentsProps) {
   const [filter, setFilter] = useState<'all' | 'ready' | 'processing'>('all');
   const [search, setSearch] = useState('');
@@ -160,9 +162,12 @@ export function RecentDocuments({
                   >
                     {/* Document Name */}
                     <td className="py-3 px-4">
-                      <div className="flex items-center gap-2.5">
-                        <FileTextIcon size={15} className="text-neutral-400 shrink-0" />
-                        <span className="font-medium text-neutral-900 dark:text-neutral-100 truncate max-w-[220px]">
+                      <div
+                        onClick={() => onOpenViewer && onOpenViewer(doc.id)}
+                        className="flex items-center gap-2.5 cursor-pointer group"
+                      >
+                        <FileTextIcon size={15} className="text-neutral-400 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 shrink-0" />
+                        <span className="font-medium text-neutral-900 dark:text-neutral-100 group-hover:underline truncate max-w-[220px]">
                           {doc.name}
                         </span>
                       </div>
@@ -191,6 +196,15 @@ export function RecentDocuments({
                     {/* Actions */}
                     <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
+                        {onOpenViewer && (
+                          <button
+                            onClick={() => onOpenViewer(doc.id)}
+                            className="text-[11px] px-2 py-1 rounded text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                          >
+                            View
+                          </button>
+                        )}
+
                         {doc.status === 'ready' && (
                           <Button
                             variant="outline"

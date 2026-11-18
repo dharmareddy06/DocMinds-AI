@@ -1,0 +1,20 @@
+[
+  {
+    "id": "q1",
+    "question": "What is the RRF ranking constant and retrieval recall in DocMind AI?",
+    "ground_truth_keywords": ["RRF", "ranking constant", "k=60", "recall", "94.2%"],
+    "expected_document": "sample_ai_architecture.md"
+  },
+  {
+    "id": "q2",
+    "question": "What vector dimension and model does DocMind use for embeddings?",
+    "ground_truth_keywords": ["384", "Sentence Transformers", "all-MiniLM-L6-v2"],
+    "expected_document": "sample_ai_architecture.md"
+  },
+  {
+    "id": "q3",
+    "question": "What reranker model is applied after hybrid fusion?",
+    "ground_truth_keywords": ["cross-encoder", "ms-marco-MiniLM-L-6-v2", "reranking"],
+    "expected_document": "sample_ai_architecture.md"
+  }
+]

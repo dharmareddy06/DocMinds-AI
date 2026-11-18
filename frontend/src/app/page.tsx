@@ -7,6 +7,10 @@ import { UploadSection } from '@/components/dashboard/UploadSection';
 import { ProcessingStatusCard } from '@/components/dashboard/ProcessingStatusCard';
 import { RecentDocuments } from '@/components/dashboard/RecentDocuments';
 import { ConversationModal } from '@/components/dashboard/ConversationModal';
+import { DocumentViewerModal } from '@/components/dashboard/DocumentViewerModal';
+import { ResearchView } from '@/components/dashboard/ResearchView';
+import { ComparisonView } from '@/components/dashboard/ComparisonView';
+import { AgentMonitorView } from '@/components/dashboard/AgentMonitorView';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import {
@@ -122,6 +126,30 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isConversationModalOpen, setIsConversationModalOpen] = useState(false);
   const [selectedDocForChat, setSelectedDocForChat] = useState<DocumentItem | null>(null);
+  const [viewerModalState, setViewerModalState] = useState<{
+    isOpen: boolean;
+    documentId: string | null;
+    documentName?: string;
+    initialPage: number;
+    highlightText?: string;
+  }>({
+    isOpen: false,
+    documentId: null,
+    documentName: undefined,
+    initialPage: 1,
+    highlightText: undefined,
+  });
+
+  const handleOpenViewer = (docId: string, page: number = 1, text?: string) => {
+    const doc = documents.find((d) => d.id === docId);
+    setViewerModalState({
+      isOpen: true,
+      documentId: docId,
+      documentName: doc?.name || 'Document',
+      initialPage: page,
+      highlightText: text,
+    });
+  };
 
   // Sync with live backend if available
   useEffect(() => {
@@ -247,6 +275,7 @@ export default function Home() {
                 documents={documents}
                 onStartChatWithDoc={handleStartChatWithDoc}
                 onDeleteDoc={handleDeleteDoc}
+                onOpenViewer={handleOpenViewer}
               />
             </div>
 
@@ -310,8 +339,19 @@ export default function Home() {
             documents={documents}
             onStartChatWithDoc={handleStartChatWithDoc}
             onDeleteDoc={handleDeleteDoc}
+            onOpenViewer={handleOpenViewer}
           />
         </div>
+      )}
+
+      {/* Tab: Research Studio */}
+      {currentTab === 'research' && (
+        <ResearchView documents={documents} onOpenViewer={handleOpenViewer} />
+      )}
+
+      {/* Tab: Document Compare */}
+      {currentTab === 'compare' && (
+        <ComparisonView documents={documents} onOpenViewer={handleOpenViewer} />
       )}
 
       {/* Tab: Conversations */}
@@ -341,11 +381,9 @@ export default function Home() {
         </div>
       )}
 
-      {/* Tab: Pipelines */}
+      {/* Tab: Pipelines & Agent Monitor */}
       {currentTab === 'pipelines' && (
-        <div className="space-y-5">
-          <ProcessingStatusCard activeJobs={activeJobs} />
-        </div>
+        <AgentMonitorView activeJobs={activeJobs} />
       )}
 
       {/* Tab: Analytics */}
@@ -420,6 +458,17 @@ export default function Home() {
         onClose={() => setIsConversationModalOpen(false)}
         documents={documents}
         selectedDocument={selectedDocForChat}
+        onOpenViewer={handleOpenViewer}
+      />
+
+      {/* Document Viewer Modal with Page-by-Page and Citations */}
+      <DocumentViewerModal
+        isOpen={viewerModalState.isOpen}
+        onClose={() => setViewerModalState((prev) => ({ ...prev, isOpen: false }))}
+        documentId={viewerModalState.documentId}
+        documentName={viewerModalState.documentName}
+        initialPage={viewerModalState.initialPage}
+        highlightText={viewerModalState.highlightText}
       />
     </AppLayout>
   );
