@@ -69,17 +69,17 @@ export function Header({
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search documents, chunks..."
-            className="w-48 lg:w-60 pl-8 pr-8 py-1.5 text-xs rounded-lg bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 border border-neutral-200 dark:border-neutral-700 focus:border-neutral-400 dark:focus:border-neutral-600 focus:outline-none transition-colors"
+            className="w-48 lg:w-60 pl-8 pr-8 py-1.5 text-xs rounded-lg bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 border border-neutral-200 dark:border-neutral-800 focus:border-lime-400 focus:ring-1 focus:ring-lime-400/40 focus:outline-none transition-colors"
           />
-          <kbd className="absolute right-2 text-[10px] font-mono text-neutral-400 bg-neutral-200/60 dark:bg-neutral-700/60 px-1 py-0.5 rounded">
+          <kbd className="absolute right-2 text-[10px] font-mono text-neutral-400 bg-neutral-200/60 dark:bg-neutral-800 px-1 py-0.5 rounded">
             ⌘K
           </kbd>
         </div>
 
         {/* Engine status indicator */}
-        <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-md bg-neutral-50 dark:bg-neutral-800/80 border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-300 text-xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-          <span className="text-[11px] font-medium">Ready</span>
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 text-xs shadow-2xs">
+          <span className="w-1.5 h-1.5 rounded-full bg-lime-400 shadow-[0_0_8px_rgba(163,230,53,0.9)]" />
+          <span className="text-[11px] font-medium tracking-tight">System Online</span>
         </div>
 
         {/* Notifications */}

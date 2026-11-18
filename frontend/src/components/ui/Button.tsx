@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'lime';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
@@ -20,19 +20,21 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed select-none cursor-pointer';
+    'inline-flex items-center justify-center font-medium rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-lime-400/50 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed select-none cursor-pointer';
 
   const variants = {
     primary:
-      'bg-neutral-900 hover:bg-neutral-800 text-white dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 border border-transparent shadow-xs',
+      'bg-lime-400 hover:bg-lime-300 text-neutral-950 font-semibold shadow-xs hover:shadow-[0_0_14px_rgba(163,230,53,0.35)] active:scale-[0.98] border border-transparent',
+    lime:
+      'bg-lime-400 hover:bg-lime-300 text-neutral-950 font-semibold shadow-xs hover:shadow-[0_0_14px_rgba(163,230,53,0.35)] active:scale-[0.98] border border-transparent',
     secondary:
-      'bg-neutral-100 hover:bg-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700',
+      'bg-neutral-100 hover:bg-neutral-200 text-neutral-900 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-800',
     outline:
-      'bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800/80 text-neutral-700 dark:text-neutral-300 shadow-2xs',
+      'bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 hover:border-lime-400/50 hover:bg-neutral-50 dark:hover:bg-neutral-900 text-neutral-800 dark:text-neutral-200 shadow-2xs',
     ghost:
-      'bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-300',
+      'bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-900 hover:text-lime-500 dark:hover:text-lime-400 text-neutral-600 dark:text-neutral-300',
     danger:
-      'bg-neutral-900 hover:bg-red-600 text-white dark:bg-red-950 dark:hover:bg-red-900 dark:text-red-200 border border-neutral-200 dark:border-red-900/40',
+      'bg-neutral-900 hover:bg-rose-600 text-white dark:bg-rose-950/60 dark:hover:bg-rose-900 dark:text-rose-200 border border-neutral-200 dark:border-rose-900/40',
   };
 
   const sizes = {

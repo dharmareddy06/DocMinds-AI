@@ -34,7 +34,7 @@ export function AgentMonitorView({ activeJobs }: AgentMonitorViewProps) {
           <CardContent className="p-4">
             <span className="text-[11px] font-medium text-neutral-500">Pipeline State</span>
             <div className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mt-1 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" /> Operational
+              <span className="w-2 h-2 rounded-full bg-lime-400 shadow-[0_0_10px_rgba(163,230,53,0.9)] animate-pulse" /> Operational
             </div>
             <span className="text-[11px] text-neutral-400 mt-0.5 block">
               All 5 LangGraph nodes active
@@ -55,7 +55,7 @@ export function AgentMonitorView({ activeJobs }: AgentMonitorViewProps) {
         <Card>
           <CardContent className="p-4">
             <span className="text-[11px] font-medium text-neutral-500">Retrieval Recall@3</span>
-            <div className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mt-1 font-mono">
+            <div className="text-xl font-bold text-lime-400 mt-1 font-mono">
               94.2%
             </div>
             <span className="text-[11px] text-neutral-400 mt-0.5 block">
@@ -142,10 +142,10 @@ export function AgentMonitorView({ activeJobs }: AgentMonitorViewProps) {
                     <td className="py-2.5 px-4 font-sans font-medium text-neutral-900 dark:text-neutral-100">
                       {b.strategy}
                     </td>
-                    <td className="py-2.5 px-4 text-emerald-600 dark:text-emerald-400 font-semibold">{b.recall}</td>
+                    <td className="py-2.5 px-4 text-lime-400 font-bold">{b.recall}</td>
                     <td className="py-2.5 px-4 text-neutral-500">{b.precision}</td>
                     <td className="py-2.5 px-4 text-neutral-500">{b.mrr}</td>
-                    <td className="py-2.5 px-4 text-right text-neutral-500">{b.ndcg}</td>
+                    <td className="py-2.5 px-4 text-right text-lime-400/90 font-mono font-medium">{b.ndcg}</td>
                   </tr>
                 ))}
               </tbody>

@@ -137,7 +137,7 @@ export function ResearchView({ documents, onOpenViewer }: ResearchViewProps) {
                 <button
                   key={idx}
                   onClick={() => handleStartResearch(t)}
-                  className="text-left text-xs px-2.5 py-1 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                  className="text-left text-xs px-2.5 py-1 rounded-md bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-900 hover:text-lime-400 dark:hover:bg-neutral-900 dark:hover:text-lime-300 border border-transparent hover:border-lime-400/30 transition-colors"
                 >
                   {t}
                 </button>
@@ -150,7 +150,7 @@ export function ResearchView({ documents, onOpenViewer }: ResearchViewProps) {
       {/* Loading Execution Progress */}
       {isInvestigating && (
         <Card className="p-6 text-center space-y-3">
-          <div className="w-8 h-8 mx-auto rounded-full border-2 border-neutral-900 border-t-transparent animate-spin dark:border-white dark:border-t-transparent" />
+          <div className="w-8 h-8 mx-auto rounded-full border-2 border-lime-400 border-t-transparent animate-spin shadow-[0_0_10px_rgba(163,230,53,0.3)]" />
           <p className="text-xs font-semibold text-neutral-900 dark:text-neutral-100">
             Agents Investigating Documents...
           </p>
@@ -169,7 +169,7 @@ export function ResearchView({ documents, onOpenViewer }: ResearchViewProps) {
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <CheckCircleIcon size={16} className="text-emerald-600 dark:text-emerald-400" />
+                    <CheckCircleIcon size={16} className="text-lime-400" />
                     <CardTitle className="text-sm">Research Synthesis</CardTitle>
                   </div>
                   <Badge variant="success" size="sm">
@@ -248,19 +248,19 @@ export function ResearchView({ documents, onOpenViewer }: ResearchViewProps) {
                   <div className="space-y-1 text-[11px] text-neutral-500">
                     <div className="flex items-center justify-between py-1">
                       <span>Supervisor Agent</span>
-                      <span className="text-emerald-600 font-medium">✓ Completed</span>
+                      <span className="text-lime-400 font-semibold">✓ Completed</span>
                     </div>
                     <div className="flex items-center justify-between py-1">
                       <span>Hybrid Retriever</span>
-                      <span className="text-emerald-600 font-medium">✓ Completed</span>
+                      <span className="text-lime-400 font-semibold">✓ Completed</span>
                     </div>
                     <div className="flex items-center justify-between py-1">
                       <span>Research Synthesizer</span>
-                      <span className="text-emerald-600 font-medium">✓ Completed</span>
+                      <span className="text-lime-400 font-semibold">✓ Completed</span>
                     </div>
                     <div className="flex items-center justify-between py-1">
                       <span>Citation Verifier</span>
-                      <span className="text-emerald-600 font-medium">✓ Completed</span>
+                      <span className="text-lime-400 font-semibold">✓ Completed</span>
                     </div>
                   </div>
                 </div>

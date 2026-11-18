@@ -108,8 +108,8 @@ export function DocumentViewerModal({
       <div className="space-y-3">
         {/* Highlight Banner if citation is focused */}
         {highlightText && (
-          <div className="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-800/40 text-xs text-amber-800 dark:text-amber-300">
-            <span className="font-semibold block text-[10px] uppercase tracking-wider mb-0.5">
+          <div className="p-2.5 rounded-lg bg-lime-400/10 border border-lime-400/40 text-xs text-lime-900 dark:text-lime-300 shadow-[0_0_12px_rgba(163,230,53,0.15)]">
+            <span className="font-semibold block text-[10px] uppercase tracking-wider mb-0.5 text-lime-600 dark:text-lime-400">
               Cited Evidence Passage
             </span>
             <p className="italic line-clamp-3">

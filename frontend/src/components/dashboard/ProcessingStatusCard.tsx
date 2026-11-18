@@ -101,7 +101,7 @@ export function ProcessingStatusCard({ activeJobs, onRefresh }: ProcessingStatus
                   <ProgressBar
                     value={job.progress}
                     size="sm"
-                    color="neutral"
+                    color="lime"
                     showPercentage
                   />
                 </div>
@@ -122,7 +122,7 @@ export function ProcessingStatusCard({ activeJobs, onRefresh }: ProcessingStatus
           </div>
           <div>
             <span className="text-[10px] text-neutral-400 block">Status</span>
-            <span className="font-medium text-emerald-600 dark:text-emerald-400">Optimal</span>
+            <span className="font-medium text-lime-400 font-semibold">Optimal</span>
           </div>
         </div>
       </CardContent>

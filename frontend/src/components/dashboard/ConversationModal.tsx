@@ -214,14 +214,14 @@ export function ConversationModal({
                         📄 {cite.document_name}
                       </span>
                       <div className="flex items-center gap-2 shrink-0">
-                        <span className="font-mono text-neutral-400">
-                          Page {cite.page_number || 1} • {Math.round(cite.relevance_score * 100)}% match
+                        <span className="font-mono text-lime-400 font-semibold bg-lime-400/10 px-1.5 py-0.5 rounded border border-lime-400/20 text-[10px]">
+                          Page {cite.page_number || 1} • {Math.round(cite.relevance_score * 100)}%
                         </span>
                         {onOpenViewer && (
                           <button
                             type="button"
                             onClick={() => onOpenViewer(cite.document_id, cite.page_number || 1, cite.relevant_passage)}
-                            className="text-[10px] text-neutral-900 dark:text-neutral-100 underline hover:no-underline font-medium"
+                            className="text-[10px] text-lime-400 hover:text-lime-300 font-semibold underline hover:no-underline"
                           >
                             Inspect
                           </button>

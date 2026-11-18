@@ -98,12 +98,12 @@ export function RecentDocuments({
               />
             </div>
 
-            <div className="flex items-center rounded-md bg-neutral-100 dark:bg-neutral-800 p-0.5 text-xs">
+            <div className="flex items-center rounded-md bg-neutral-100 dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 p-0.5 text-xs">
               <button
                 onClick={() => setFilter('all')}
                 className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
                   filter === 'all'
-                    ? 'bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 shadow-2xs'
+                    ? 'bg-neutral-950 text-lime-400 dark:bg-neutral-800 dark:text-lime-400 shadow-2xs'
                     : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200'
                 }`}
               >
@@ -113,7 +113,7 @@ export function RecentDocuments({
                 onClick={() => setFilter('ready')}
                 className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
                   filter === 'ready'
-                    ? 'bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 shadow-2xs'
+                    ? 'bg-neutral-950 text-lime-400 dark:bg-neutral-800 dark:text-lime-400 shadow-2xs'
                     : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200'
                 }`}
               >
@@ -123,7 +123,7 @@ export function RecentDocuments({
                 onClick={() => setFilter('processing')}
                 className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
                   filter === 'processing'
-                    ? 'bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 shadow-2xs'
+                    ? 'bg-neutral-950 text-lime-400 dark:bg-neutral-800 dark:text-lime-400 shadow-2xs'
                     : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200'
                 }`}
               >

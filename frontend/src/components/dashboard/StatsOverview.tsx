@@ -49,7 +49,13 @@ export function StatsOverview({ documents }: StatsOverviewProps) {
             <p className="text-[11px] font-medium text-neutral-500 dark:text-neutral-400">
               {stat.label}
             </p>
-            <h4 className="text-xl sm:text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 mt-1">
+            <h4
+              className={`text-xl sm:text-2xl font-semibold tracking-tight mt-1 ${
+                stat.id === 'ready'
+                  ? 'text-lime-500 dark:text-lime-400 font-bold'
+                  : 'text-neutral-900 dark:text-neutral-100'
+              }`}
+            >
               {stat.value}
             </h4>
             <p className="mt-1 text-[11px] text-neutral-400 dark:text-neutral-500 truncate">

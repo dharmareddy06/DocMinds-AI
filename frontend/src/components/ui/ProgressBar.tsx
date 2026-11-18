@@ -5,7 +5,7 @@ export interface ProgressBarProps {
   label?: string;
   showPercentage?: boolean;
   size?: 'sm' | 'md' | 'lg';
-  color?: 'neutral' | 'indigo' | 'emerald' | 'amber';
+  color?: 'lime' | 'neutral' | 'indigo' | 'emerald' | 'amber';
   animated?: boolean;
   className?: string;
 }
@@ -15,7 +15,7 @@ export function ProgressBar({
   label,
   showPercentage = false,
   size = 'md',
-  color = 'neutral',
+  color = 'lime',
   animated = false,
   className = '',
 }: ProgressBarProps) {
@@ -28,9 +28,10 @@ export function ProgressBar({
   };
 
   const colorClasses = {
+    lime: 'bg-lime-400 shadow-[0_0_8px_rgba(163,230,53,0.5)]',
     neutral: 'bg-neutral-800 dark:bg-neutral-200',
-    indigo: 'bg-neutral-900 dark:bg-neutral-100',
-    emerald: 'bg-emerald-600 dark:bg-emerald-500',
+    indigo: 'bg-lime-400',
+    emerald: 'bg-lime-400',
     amber: 'bg-amber-600 dark:bg-amber-500',
   };
 

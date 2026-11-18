@@ -66,7 +66,7 @@ export function Sidebar({
         {/* Brand Header */}
         <div className="flex items-center justify-between h-14 px-4 border-b border-neutral-200 dark:border-neutral-800">
           <div className="flex items-center gap-2.5">
-            <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-bold text-xs tracking-wider shadow-2xs">
+            <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-neutral-950 text-lime-400 font-extrabold text-xs tracking-wider border border-lime-400/40 shadow-[0_0_12px_rgba(163,230,53,0.25)]">
               DM
             </div>
             <div className="flex flex-col">
@@ -104,16 +104,16 @@ export function Sidebar({
                   onSelectTab(item.id);
                   onClose();
                 }}
-                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium transition-all duration-150 ${
                   isActive
-                    ? 'bg-neutral-200/70 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 hover:text-neutral-900 dark:hover:text-neutral-200'
+                    ? 'bg-neutral-950 text-lime-400 dark:bg-neutral-900 dark:text-lime-400 border border-neutral-800/80 shadow-xs'
+                    : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-900 hover:text-neutral-950 dark:hover:text-neutral-100'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
                   <Icon
                     size={16}
-                    className={isActive ? 'text-neutral-900 dark:text-neutral-100' : 'text-neutral-400'}
+                    className={isActive ? 'text-lime-400' : 'text-neutral-400'}
                   />
                   <span>{item.label}</span>
                 </div>
@@ -121,7 +121,7 @@ export function Sidebar({
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
                       isActive
-                        ? 'bg-neutral-300/80 dark:bg-neutral-700 text-neutral-800 dark:text-neutral-200'
+                        ? 'bg-lime-400/15 text-lime-400 border border-lime-400/30'
                         : 'bg-neutral-200/60 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400'
                     }`}
                   >
@@ -139,13 +139,13 @@ export function Sidebar({
             <span className="text-[11px] font-medium text-neutral-600 dark:text-neutral-400">Index Quota</span>
             <span className="text-[10px] font-mono text-neutral-400">3.4 / 10 GB</span>
           </div>
-          <ProgressBar value={34} size="sm" color="neutral" />
+          <ProgressBar value={34} size="sm" color="lime" />
         </div>
 
         {/* User Profile Footer */}
         <div className="p-2.5 border-t border-neutral-200 dark:border-neutral-800">
           <div className="flex items-center gap-2.5 p-1.5 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
-            <div className="w-7 h-7 rounded-full bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center text-neutral-700 dark:text-neutral-300 text-xs font-medium">
+            <div className="w-7 h-7 rounded-full bg-neutral-950 border border-lime-400/30 text-lime-400 flex items-center justify-center text-xs font-semibold">
               SC
             </div>
             <div className="flex flex-col min-w-0 flex-1">

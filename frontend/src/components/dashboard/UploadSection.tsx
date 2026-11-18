@@ -153,13 +153,13 @@ export function UploadSection({ onDocumentUploaded }: UploadSectionProps) {
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => handleLoadSample('annual_financial_report.pdf')}
-              className="text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-800 transition-colors"
+              className="text-xs text-neutral-600 dark:text-neutral-400 hover:text-lime-400 dark:hover:text-lime-300 hover:border-lime-400/30 px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-900 border border-transparent transition-colors"
             >
               + Sample PDF
             </button>
             <button
               onClick={() => handleLoadSample('technical_specifications.docx')}
-              className="text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-800 transition-colors"
+              className="text-xs text-neutral-600 dark:text-neutral-400 hover:text-lime-400 dark:hover:text-lime-300 hover:border-lime-400/30 px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-900 border border-transparent transition-colors"
             >
               + Sample DOCX
             </button>
@@ -183,17 +183,17 @@ export function UploadSection({ onDocumentUploaded }: UploadSectionProps) {
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
-          className={`cursor-pointer border border-dashed rounded-lg p-6 text-center transition-colors ${
+          className={`cursor-pointer border border-dashed rounded-lg p-6 text-center transition-all duration-200 ${
             isDragging
-              ? 'border-neutral-500 bg-neutral-100/50 dark:bg-neutral-800/50'
-              : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 hover:bg-neutral-50/50 dark:hover:bg-neutral-800/30'
+              ? 'border-lime-400 bg-lime-400/5 text-lime-400 shadow-[0_0_20px_rgba(163,230,53,0.15)]'
+              : 'border-neutral-200 dark:border-neutral-800 hover:border-lime-400/40 hover:bg-neutral-50/50 dark:hover:bg-neutral-900/40'
           }`}
         >
-          <div className="mx-auto w-8 h-8 rounded-md bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-400 mb-2">
-            <UploadCloudIcon size={16} />
+          <div className="mx-auto w-9 h-9 rounded-lg bg-neutral-950 border border-lime-400/30 flex items-center justify-center text-lime-400 mb-2 shadow-[0_0_10px_rgba(163,230,53,0.2)]">
+            <UploadCloudIcon size={18} />
           </div>
 
-          <p className="text-xs font-medium text-neutral-800 dark:text-neutral-200">
+          <p className="text-xs font-medium text-neutral-900 dark:text-neutral-100">
             {isDragging ? 'Drop files to upload' : 'Click to select or drag and drop files here'}
           </p>
 

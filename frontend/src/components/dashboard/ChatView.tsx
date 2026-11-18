@@ -248,36 +248,36 @@ export function ChatView({ documents, onOpenViewer }: ChatViewProps) {
               <div
                 className={`max-w-2xl text-xs rounded-xl p-4 leading-relaxed ${
                   msg.role === 'user'
-                    ? 'bg-neutral-900 text-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 shadow-sm'
-                    : 'bg-neutral-50 dark:bg-neutral-850 border border-neutral-200/80 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200'
+                    ? 'bg-neutral-950 text-neutral-100 border border-neutral-800 shadow-sm'
+                    : 'bg-neutral-50 dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100'
                 }`}
               >
                 <div className="whitespace-pre-wrap font-sans">
                   {msg.content || (msg.isStreaming ? 'Thinking...' : '')}
                   {msg.isStreaming && (
-                    <span className="inline-block w-1.5 h-3 ml-1 bg-neutral-400 animate-pulse" />
+                    <span className="inline-block w-1.5 h-3 ml-1 bg-lime-400 animate-pulse shadow-[0_0_8px_rgba(163,230,53,0.8)]" />
                   )}
                 </div>
 
                 {/* Citations Card if attached */}
                 {msg.citations && msg.citations.length > 0 && (
-                  <div className="mt-3.5 pt-3 border-t border-neutral-200/60 dark:border-neutral-700/60 space-y-2">
+                  <div className="mt-3.5 pt-3 border-t border-neutral-200/60 dark:border-neutral-800 space-y-2">
                     <span className="text-[10px] uppercase font-semibold text-neutral-400 flex items-center gap-1">
-                      <FileTextIcon size={12} />
+                      <FileTextIcon size={12} className="text-lime-400" />
                       Verified Source Citations ({msg.citations.length})
                     </span>
                     <div className="space-y-1.5">
                       {msg.citations.map((cite, cIdx) => (
                         <div
                           key={cIdx}
-                          className="p-2.5 rounded-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-[11px] space-y-1"
+                          className="p-2.5 rounded-lg bg-white dark:bg-neutral-950 border border-neutral-200/80 dark:border-neutral-800 text-[11px] space-y-1"
                         >
                           <div className="flex items-center justify-between">
-                            <span className="font-semibold text-neutral-700 dark:text-neutral-200 truncate mr-2">
+                            <span className="font-semibold text-neutral-800 dark:text-neutral-200 truncate mr-2">
                               📄 {cite.document_name}
                             </span>
                             <div className="flex items-center gap-2 shrink-0">
-                              <span className="font-mono text-neutral-400">
+                              <span className="font-mono text-lime-400 font-medium bg-lime-400/10 px-1.5 py-0.5 rounded border border-lime-400/20 text-[10px]">
                                 Page {cite.page_number || 1} • {Math.round(cite.relevance_score * 100)}%
                               </span>
                               <button
@@ -289,13 +289,13 @@ export function ChatView({ documents, onOpenViewer }: ChatViewProps) {
                                     cite.relevant_passage
                                   )
                                 }
-                                className="text-[10px] text-neutral-900 dark:text-neutral-100 underline hover:no-underline font-medium"
+                                className="text-[10px] text-lime-400 hover:text-lime-300 font-semibold underline hover:no-underline"
                               >
                                 View Page
                               </button>
                             </div>
                           </div>
-                          <p className="text-neutral-500 italic text-[11px] bg-neutral-50 dark:bg-neutral-850 p-2 rounded">
+                          <p className="text-neutral-500 dark:text-neutral-400 italic text-[11px] bg-neutral-50 dark:bg-neutral-900 p-2 rounded border border-neutral-100 dark:border-neutral-850">
                             &ldquo;{cite.relevant_passage}&rdquo;
                           </p>
                         </div>
@@ -320,7 +320,7 @@ export function ChatView({ documents, onOpenViewer }: ChatViewProps) {
                 type="button"
                 onClick={() => handleSendMessage(p)}
                 disabled={isGenerating}
-                className="shrink-0 px-2.5 py-1 rounded-full border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-300 hover:border-neutral-400 disabled:opacity-50 transition-colors"
+                className="shrink-0 px-2.5 py-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-300 hover:border-lime-400/50 hover:text-lime-400 disabled:opacity-50 transition-colors"
               >
                 {p.slice(0, 42)}...
               </button>
@@ -342,7 +342,7 @@ export function ChatView({ documents, onOpenViewer }: ChatViewProps) {
               placeholder={`Ask a question across ${
                 selectedDocId === 'all' ? 'all indexed documents' : 'selected document'
               }...`}
-              className="flex-1 p-2.5 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-xs text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 focus:outline-none focus:ring-1 focus:ring-neutral-400 resize-none"
+              className="flex-1 p-2.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-xs text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 focus:outline-none focus:border-lime-400 focus:ring-1 focus:ring-lime-400/40 resize-none"
             />
 
             {isGenerating ? (

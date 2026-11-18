@@ -114,10 +114,10 @@ export function ComparisonView({ documents, onOpenViewer }: ComparisonViewProps)
                     key={doc.id}
                     type="button"
                     onClick={() => toggleDoc(doc.id)}
-                    className={`text-left p-2.5 rounded-lg border text-xs transition-colors flex items-center justify-between ${
+                    className={`text-left p-2.5 rounded-lg border text-xs transition-all ${
                       isSelected
-                        ? 'border-neutral-900 bg-neutral-100 dark:border-white dark:bg-neutral-800 font-medium text-neutral-900 dark:text-neutral-100'
-                        : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 text-neutral-600 dark:text-neutral-400'
+                        ? 'border-lime-400 bg-lime-400/10 text-lime-400 font-semibold shadow-[0_0_12px_rgba(163,230,53,0.15)]'
+                        : 'border-neutral-200 dark:border-neutral-800 hover:border-lime-400/40 text-neutral-600 dark:text-neutral-400'
                     }`}
                   >
                     <span className="truncate mr-2">📄 {doc.name}</span>
@@ -142,10 +142,10 @@ export function ComparisonView({ documents, onOpenViewer }: ComparisonViewProps)
                   <button
                     key={asp}
                     onClick={() => toggleAspect(asp)}
-                    className={`text-xs px-2.5 py-1 rounded-md border transition-colors ${
+                    className={`text-xs px-2.5 py-1 rounded-md border transition-all ${
                       isChecked
-                        ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 border-transparent'
-                        : 'bg-neutral-50 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 border-neutral-200 dark:border-neutral-700 hover:border-neutral-400'
+                        ? 'bg-neutral-950 text-lime-400 border-lime-400/50 shadow-xs font-medium'
+                        : 'bg-neutral-50 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border-neutral-200 dark:border-neutral-800 hover:border-lime-400/40'
                     }`}
                   >
                     {isChecked ? `✓ ${asp}` : `+ ${asp}`}
@@ -175,7 +175,7 @@ export function ComparisonView({ documents, onOpenViewer }: ComparisonViewProps)
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <CheckCircleIcon size={16} className="text-emerald-600 dark:text-emerald-400" />
+                <CheckCircleIcon size={16} className="text-lime-400" />
                 <CardTitle className="text-sm">Comparative Analysis Results</CardTitle>
               </div>
               <Badge variant="neutral" size="sm">

@@ -291,9 +291,10 @@ export default function Home() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <div className="p-3 rounded-lg border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-850">
-                    <div className="text-xs font-semibold text-neutral-900 dark:text-neutral-100 mb-1">
-                      Document Synthesis
+                  <div className="p-3 rounded-lg border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 hover:border-lime-400/30 transition-colors">
+                    <div className="text-xs font-semibold text-neutral-900 dark:text-neutral-100 mb-1 flex items-center justify-between">
+                      <span>Document Synthesis</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-lime-400" />
                     </div>
                     <p className="text-[11px] text-neutral-500 mb-3">
                       Ask complex questions across documents with verified citations.
@@ -308,9 +309,10 @@ export default function Home() {
                     </Button>
                   </div>
 
-                  <div className="p-3 rounded-lg border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-850">
-                    <div className="text-xs font-semibold text-neutral-900 dark:text-neutral-100 mb-1">
-                      Data &amp; Table Extraction
+                  <div className="p-3 rounded-lg border border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 hover:border-lime-400/30 transition-colors">
+                    <div className="text-xs font-semibold text-neutral-900 dark:text-neutral-100 mb-1 flex items-center justify-between">
+                      <span>Data &amp; Table Extraction</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-lime-400" />
                     </div>
                     <p className="text-[11px] text-neutral-500 mb-3">
                       Extract structured tables, numbers, and balance sheets into JSON.
