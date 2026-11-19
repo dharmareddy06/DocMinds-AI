@@ -16,10 +16,10 @@ class CrossEncoderReranker:
         if self._model is None:
             try:
                 from sentence_transformers import CrossEncoder
-                self._model = CrossEncoder(settings.RERANKER_MODEL_NAME, local_files_only=True)
-                logger.info(f"Loaded local CrossEncoder: {settings.RERANKER_MODEL_NAME}")
-            except Exception:
-                logger.info(f"Local CrossEncoder not cached, using RRF score ranking.")
+                self._model = CrossEncoder(settings.RERANKER_MODEL_NAME)
+                logger.info(f"Loaded CrossEncoder: {settings.RERANKER_MODEL_NAME}")
+            except Exception as e:
+                logger.info(f"CrossEncoder not loaded ({e}), using RRF score ranking.")
                 self._model = None
 
     def rerank(

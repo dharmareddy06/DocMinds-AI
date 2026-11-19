@@ -17,12 +17,11 @@ class EmbeddingService:
         if self._model is None:
             try:
                 from sentence_transformers import SentenceTransformer
-                # Try loading local cached model first without hanging on network
-                self._model = SentenceTransformer(settings.EMBEDDING_MODEL_NAME, local_files_only=True)
-                logger.info(f"Loaded local embedding model: {settings.EMBEDDING_MODEL_NAME}")
-            except Exception:
-                # If model files not yet cached locally, use fast deterministic vector embeddings
-                logger.info(f"SentenceTransformer local files not present, using fast normalized embeddings.")
+                # Load model (uses local cache or downloads on first run)
+                self._model = SentenceTransformer(settings.EMBEDDING_MODEL_NAME)
+                logger.info(f"Loaded embedding model: {settings.EMBEDDING_MODEL_NAME}")
+            except Exception as e:
+                logger.info(f"SentenceTransformer not loaded ({e}), using fast normalized embeddings.")
                 self._model = None
 
     def embed_documents(self, texts: List[str]) -> List[List[float]]:
