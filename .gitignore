@@ -27,6 +27,7 @@ docmind.db
 # Storage / Uploads
 storage/documents/*
 !storage/documents/.gitkeep
+backend/storage/
 
 # Node & Next.js
 node_modules/
