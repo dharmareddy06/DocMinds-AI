@@ -55,3 +55,8 @@ logs/
 *.swo
 .DS_Store
 Thumbs.db
+
+# Internal Specifications & Diagrams (Private)
+docs/details.md
+docs/mermaid-diagram*.png
+
