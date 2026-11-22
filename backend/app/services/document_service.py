@@ -32,13 +32,15 @@ class DocumentService:
         with open(save_path, "wb") as f:
             f.write(content_bytes)
 
+        ext = Path(safe_name).suffix.lstrip(".").lower() or "pdf"
+
         # Create record in DB
         doc = DocumentRepository.create(
             db=db,
             filename=safe_name,
             file_path=save_path,
+            file_type=ext,
             file_size=len(content_bytes),
-            mime_type=file.content_type or "application/octet-stream",
             workspace_id=workspace_id
         )
 

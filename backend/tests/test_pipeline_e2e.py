@@ -1,5 +1,13 @@
 import os
+import sys
+from pathlib import Path
 import asyncio
+
+# Ensure project root is in sys.path
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 from backend.app.database.session import SessionLocal, init_db
 from backend.app.database.repositories import DocumentRepository
 from backend.app.ingestion.pipeline import IngestionPipeline
