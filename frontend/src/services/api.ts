@@ -285,5 +285,18 @@ export const api = {
       });
 
     return () => controller.abort();
+  },
+
+  getDocuments: async (): Promise<DocumentItem[]> => {
+    return api.listDocuments();
+  },
+
+  startResearch: async (query: string): Promise<{ findings: string; citations: CitationItem[]; execution_trace: any[] }> => {
+    const res = await api.runResearch(query);
+    return {
+      findings: res.output_result,
+      citations: res.citations || [],
+      execution_trace: (res.execution_trace?.steps as any[]) || []
+    };
   }
 };

@@ -267,3 +267,11 @@ export function ChevronLeft({ size = 20, className = '', ...props }: IconProps) 
     </svg>
   );
 }
+
+// Aliases for unified component usage
+export const DocumentIcon = FileTextIcon;
+export const UploadIcon = UploadCloudIcon;
+export const TrashIcon = Trash2Icon;
+export const EyeIcon = SearchIcon;
+export const SendIcon = ArrowRightIcon;
+

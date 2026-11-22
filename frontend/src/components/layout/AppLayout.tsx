@@ -5,33 +5,39 @@ import { NavigationTab } from '@/types';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 
-interface AppLayoutProps {
+export interface AppLayoutProps {
   children: React.ReactNode;
-  currentTab: NavigationTab;
-  onSelectTab: (tab: NavigationTab) => void;
-  onStartConversation: () => void;
+  currentTab?: NavigationTab;
+  activeTab?: string;
+  onSelectTab?: (tab: NavigationTab) => void;
+  onTabChange?: (tab: any) => void;
+  onStartConversation?: () => void;
   documentCount?: number;
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
 }
 
 export function AppLayout({
   children,
   currentTab,
+  activeTab,
   onSelectTab,
-  onStartConversation,
+  onTabChange,
+  onStartConversation = () => {},
   documentCount = 12,
-  searchQuery,
-  onSearchChange,
+  searchQuery = '',
+  onSearchChange = () => {},
 }: AppLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const effectiveTab = (currentTab || (activeTab as NavigationTab) || 'dashboard') as NavigationTab;
+  const handleSelectTab = onSelectTab || onTabChange || (() => {});
 
   return (
     <div className="min-h-screen bg-neutral-50/60 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 flex">
       {/* Sidebar navigation */}
       <Sidebar
-        currentTab={currentTab}
-        onSelectTab={onSelectTab}
+        currentTab={effectiveTab}
+        onSelectTab={handleSelectTab}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         documentCount={documentCount}
@@ -40,7 +46,7 @@ export function AppLayout({
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 lg:pl-60">
         <Header
-          currentTab={currentTab}
+          currentTab={effectiveTab}
           onOpenSidebar={() => setSidebarOpen(true)}
           onStartConversation={onStartConversation}
           searchQuery={searchQuery}

@@ -7,16 +7,18 @@ export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: React.ReactNode;
+  subtitle?: React.ReactNode;
   description?: React.ReactNode;
   children: React.ReactNode;
   footer?: React.ReactNode;
-  maxWidth?: 'sm' | 'md' | 'lg' | 'xl';
+  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | string;
 }
 
 export function Modal({
   isOpen,
   onClose,
   title,
+  subtitle,
   description,
   children,
   footer,
@@ -42,12 +44,14 @@ export function Modal({
 
   if (!isOpen) return null;
 
-  const maxWidths = {
+  const maxWidths: Record<string, string> = {
     sm: 'max-w-md',
     md: 'max-w-lg',
     lg: 'max-w-xl',
     xl: 'max-w-3xl',
   };
+
+  const dialogWidth = maxWidths[maxWidth] || maxWidth || 'max-w-lg';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
@@ -62,7 +66,7 @@ export function Modal({
       <div
         role="dialog"
         aria-modal="true"
-        className={`relative w-full ${maxWidths[maxWidth]} bg-white dark:bg-neutral-900 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-800 z-10 overflow-hidden`}
+        className={`relative w-full ${dialogWidth} bg-white dark:bg-neutral-900 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-800 z-10 overflow-hidden`}
       >
         {/* Header */}
         <div className="flex items-start justify-between p-5 border-b border-neutral-100 dark:border-neutral-800">

@@ -9,8 +9,8 @@ import { DocumentItem } from '@/types';
 import { api, ResearchResultData } from '@/services/api';
 
 interface ResearchViewProps {
-  documents: DocumentItem[];
-  onOpenViewer: (docId: string, page?: number, text?: string) => void;
+  documents?: DocumentItem[];
+  onOpenViewer?: (docId: string, page?: number, text?: string) => void;
 }
 
 const sampleTopics = [
@@ -19,7 +19,7 @@ const sampleTopics = [
   'Regulatory compliance obligations, audit trails, and penalty provisions',
 ];
 
-export function ResearchView({ documents, onOpenViewer }: ResearchViewProps) {
+export function ResearchView({ documents = [], onOpenViewer = () => {} }: ResearchViewProps) {
   const readyDocs = documents.filter((d) => d.status === 'ready');
   const [topic, setTopic] = useState('');
   const [isInvestigating, setIsInvestigating] = useState(false);

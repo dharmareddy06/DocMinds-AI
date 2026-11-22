@@ -3,6 +3,11 @@ from typing import Dict, Any, List
 from sqlalchemy.orm import Session
 from langgraph.graph import StateGraph, END
 from backend.app.agents.state import AgentState
+from backend.app.agents.supervisor import SupervisorAgent
+from backend.app.agents.researcher import ResearcherAgent
+from backend.app.agents.comparator import ComparatorAgent
+from backend.app.agents.summarizer import SummarizerAgent
+from backend.app.agents.verifier import VerifierAgent
 from backend.app.retrieval.hybrid_search import hybrid_retrieval_service
 from backend.app.llm.provider import llm_provider
 from backend.app.llm.prompts import PromptTemplates
@@ -16,51 +21,49 @@ class DocMindAgentWorkflow:
     def _build_graph(self):
         graph = StateGraph(AgentState)
 
-        # Add Nodes
+        # Register Agent Nodes
         graph.add_node("supervisor", self.supervisor_node)
         graph.add_node("retriever", self.retriever_node)
-        graph.add_node("generator", self.generator_node)
+        graph.add_node("researcher", self.researcher_node)
+        graph.add_node("comparator", self.comparator_node)
+        graph.add_node("summarizer", self.summarizer_node)
+        graph.add_node("qa_generator", self.qa_generator_node)
         graph.add_node("verifier", self.verifier_node)
 
-        # Define Edges
+        # Flow definition:
+        # Supervisor -> Retriever -> (Intent Router: researcher | comparator | summarizer | qa_generator) -> Verifier -> END
         graph.set_entry_point("supervisor")
         graph.add_edge("supervisor", "retriever")
-        graph.add_edge("retriever", "generator")
-        graph.add_edge("generator", "verifier")
+
+        graph.add_conditional_edges(
+            "retriever",
+            self.route_generator,
+            {
+                "research": "researcher",
+                "comparison": "comparator",
+                "summarization": "summarizer",
+                "question_answering": "qa_generator"
+            }
+        )
+
+        graph.add_edge("researcher", "verifier")
+        graph.add_edge("comparator", "verifier")
+        graph.add_edge("summarizer", "verifier")
+        graph.add_edge("qa_generator", "verifier")
         graph.add_edge("verifier", END)
 
         return graph.compile()
 
+    def route_generator(self, state: AgentState) -> str:
+        intent = state.get("intent", "question_answering")
+        if intent in ["research", "comparison", "summarization", "question_answering"]:
+            return intent
+        return "question_answering"
+
     async def supervisor_node(self, state: AgentState) -> Dict[str, Any]:
-        """
-        Supervisor Agent: Analyzes user intent and query complexity.
-        """
-        start_time = time.time()
-        query = state["query"].lower()
-
-        # Deterministic routing based on query signals
-        if any(w in query for w in ["compare", "difference", "versus", "vs"]):
-            intent = "comparison"
-        elif any(w in query for w in ["summarize", "summary", "overview", "brief"]):
-            intent = "summarization"
-        elif any(w in query for w in ["investigate", "research", "deep dive", "analyze all"]):
-            intent = "research"
-        else:
-            intent = "question_answering"
-
-        trace_entry = {
-            "step": "supervisor",
-            "intent": intent,
-            "latency_ms": int((time.time() - start_time) * 1000)
-        }
-        trace = list(state.get("execution_trace", [])) + [trace_entry]
-
-        return {"intent": intent, "execution_trace": trace}
+        return await SupervisorAgent.run(state)
 
     async def retriever_node(self, state: AgentState) -> Dict[str, Any]:
-        """
-        Retriever Agent: Calls decoupled hybrid search (semantic + BM25 + RRF + Cross-Encoder).
-        """
         start_time = time.time()
         query = state["query"]
         workspace_id = state.get("workspace_id")
@@ -75,6 +78,7 @@ class DocMindAgentWorkflow:
 
         trace_entry = {
             "step": "retriever",
+            "agent": "RetrieverAgent",
             "chunks_retrieved": len(chunks),
             "latency_ms": int((time.time() - start_time) * 1000)
         }
@@ -82,38 +86,29 @@ class DocMindAgentWorkflow:
 
         return {"retrieved_chunks": chunks, "execution_trace": trace}
 
-    async def generator_node(self, state: AgentState) -> Dict[str, Any]:
-        """
-        Specialist Generator Node (QA / Comparator / Summarizer).
-        """
+    async def researcher_node(self, state: AgentState) -> Dict[str, Any]:
+        return await ResearcherAgent.run(state)
+
+    async def comparator_node(self, state: AgentState) -> Dict[str, Any]:
+        return await ComparatorAgent.run(state)
+
+    async def summarizer_node(self, state: AgentState) -> Dict[str, Any]:
+        return await SummarizerAgent.run(state)
+
+    async def qa_generator_node(self, state: AgentState) -> Dict[str, Any]:
         start_time = time.time()
         chunks = state.get("retrieved_chunks", [])
-        intent = state.get("intent", "question_answering")
 
         if not chunks:
-            draft = "I could not find any relevant documents or passages in your workspace to answer this query."
+            draft = "I could not find any relevant passages in your workspace to answer this question."
             return {"draft_answer": draft}
 
-        # Build context block
         context_str = "\n\n".join([
             f"[Passage {i+1} | Source: {c['document_name']}, Page: {c.get('page_number', 1)}]\n{c['content']}"
             for i, c in enumerate(chunks)
         ])
 
-        if intent == "comparison":
-            system_prompt = PromptTemplates.DOCUMENT_COMPARATOR.format(
-                context_passages=context_str,
-                query=state["query"]
-            )
-        elif intent == "summarization":
-            system_prompt = PromptTemplates.SUMMARIZER.format(
-                context_passages=context_str
-            )
-        else:
-            system_prompt = PromptTemplates.SYSTEM_RAG_CITATION.format(
-                context_passages=context_str
-            )
-
+        system_prompt = PromptTemplates.SYSTEM_RAG_CITATION.format(context_passages=context_str)
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": state["query"]}
@@ -122,8 +117,8 @@ class DocMindAgentWorkflow:
         draft_answer = await llm_provider.generate_response(messages)
 
         trace_entry = {
-            "step": "generator",
-            "intent": intent,
+            "step": "qa_generator",
+            "agent": "QAGeneratorAgent",
             "latency_ms": int((time.time() - start_time) * 1000)
         }
         trace = list(state.get("execution_trace", [])) + [trace_entry]
@@ -131,38 +126,7 @@ class DocMindAgentWorkflow:
         return {"draft_answer": draft_answer, "execution_trace": trace}
 
     async def verifier_node(self, state: AgentState) -> Dict[str, Any]:
-        """
-        Verifier Agent: Extracts and verifies citations for every substantive claim.
-        """
-        start_time = time.time()
-        chunks = state.get("retrieved_chunks", [])
-        draft = state.get("draft_answer", "")
-
-        citations = []
-        for i, c in enumerate(chunks):
-            citations.append({
-                "chunk_id": c["chunk_id"],
-                "document_id": c["document_id"],
-                "document_name": c["document_name"],
-                "page_number": c.get("page_number", 1),
-                "relevant_passage": c["content"][:300] + ("..." if len(c["content"]) > 300 else ""),
-                "relevance_score": c.get("rerank_score", 1.0)
-            })
-
-        trace_entry = {
-            "step": "verifier",
-            "verified": True,
-            "citations_count": len(citations),
-            "latency_ms": int((time.time() - start_time) * 1000)
-        }
-        trace = list(state.get("execution_trace", [])) + [trace_entry]
-
-        return {
-            "final_answer": draft,
-            "citations": citations,
-            "is_verified": True,
-            "execution_trace": trace
-        }
+        return await VerifierAgent.run(state)
 
     async def run(self, query: str, workspace_id: str = None) -> AgentState:
         initial_state: AgentState = {
